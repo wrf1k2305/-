@@ -28,7 +28,6 @@ var Game = /** @class */ (function () {
         this._h = this.selectPic.height / 4;
         var _w = this.selectPic.width;
         var _h = this.selectPic.height;
-        this.sprite.graphics.drawRect(0, 0, _w, _h, '#2F4F2F');
         //150*3 = 450 
         //150*6 = 900
         this.sprite.width = _w;
@@ -39,7 +38,7 @@ var Game = /** @class */ (function () {
         //切分大图
         this.addLittlePic();
         this.scrollSprite.x = this.sprite.x + this.sprite.width / 2;
-        this.scrollSprite.y = this.sprite.y + this.sprite.height + 20;
+        this.scrollSprite.y = this.sprite.y - 200;
         Laya.stage.addChild(this.sprite);
         Laya.stage.addChild(this.scrollSprite);
         this.initScrollSprite(this.selectPic.url);
@@ -55,7 +54,7 @@ var Game = /** @class */ (function () {
         //设置小图位置
         var offx = 0;
         var offy = 0;
-        //创建小图并保存到小图集合中(15张)
+        //创建小图并保存到小图集合中
         for (var i = 1; i <= 12; i++) {
             if (offx >= 3 * this._w) {
                 offx = 0;
@@ -88,12 +87,22 @@ var Game = /** @class */ (function () {
     Game.prototype.clickImg = function (img) {
         if (this.selectImg == null) {
             this.selectImg = img;
-            this.selectImg.alpha = 0.5;
+            //设置灰色滤镜
+            var colorMatrix = [
+                0.3086, 0.6094, 0.0820, 0, 0,
+                0.3086, 0.6094, 0.0820, 0, 0,
+                0.3086, 0.6094, 0.0820, 0, 0,
+                0, 0, 0, 1, 0,
+            ];
+            //创建灰色颜色滤镜
+            var GrayFilter = new Laya.ColorFilter(colorMatrix);
+            this.selectImg.filters = [GrayFilter];
         }
         else {
             //若现在选中的图片存在，则交换这两个图片位置并设置选中的图片为空
             this.exchange(this.selectImg, img);
-            this.selectImg.alpha = 1;
+            //恢复
+            this.selectImg.filters = [];
             this.selectImg = null;
         }
     };
@@ -121,30 +130,32 @@ var Game = /** @class */ (function () {
         var _img2x = img2.x;
         var _img2y = img2.y;
         //以下四种情况可以交换
-        if (img2.x == img1.x && img2.y + this._h - img1.y < 10 && img2.y + this._h - img1.y > -10) //img2在img1上面
+        if (img2.x - img1.x > -1 && img2.x - img1.x < 1 && img2.y + this._h - img1.y < 1 && img2.y + this._h - img1.y > -1) //img2在img1上面
          {
             //交换图片
             Laya.Tween.to(img1, { x: _img2x, y: _img2y }, 1000, Laya.Ease.elasticOut, null, 0);
             Laya.Tween.to(img2, { x: _img1x, y: _img1y }, 1000, Laya.Ease.elasticOut, null, 0);
             this.exchangeImginLittArr(img1, img2);
         }
-        else if (img2.x == img1.x && img2.y - this._h - img1.y < 10 && img2.y - this._h - img1.y > -10) //img2在img1下面
+        else if (img2.x - img1.x > -1 && img2.x - img1.x < 1 && img2.y - this._h - img1.y < 1 && img2.y - this._h - img1.y > -1) //img2在img1下面
          {
             Laya.Tween.to(img1, { x: _img2x, y: _img2y }, 1000, Laya.Ease.elasticOut, null, 0);
             Laya.Tween.to(img2, { x: _img1x, y: _img1y }, 1000, Laya.Ease.elasticOut, null, 0);
             this.exchangeImginLittArr(img1, img2);
         }
-        else if (img2.y == img1.y && img2.x + this._w - img1.x < 10 && img2.x + this._w - img1.x > -10) //img2在img1左边
+        else if (img2.y - img1.y > -1 && img2.y - img1.y < 1 && img2.x + this._w - img1.x < 1 && img2.x + this._w - img1.x > -1) //img2在img1左边
          {
             Laya.Tween.to(img1, { x: _img2x, y: _img2y }, 1000, Laya.Ease.elasticOut, null, 0);
             Laya.Tween.to(img2, { x: _img1x, y: _img1y }, 1000, Laya.Ease.elasticOut, null, 0);
             this.exchangeImginLittArr(img1, img2);
         }
-        else if (img2.y == img1.y && img2.x - this._w - img1.x < 10 && img2.x - this._w - img1.x > -10) //img2在img1右边
+        else if (img2.y - img1.y > -1 && img2.y - img1.y < 1 && img2.x - this._w - img1.x < 1 && img2.x - this._w - img1.x > -1) //img2在img1右边
          {
             Laya.Tween.to(img1, { x: _img2x, y: _img2y }, 1000, Laya.Ease.elasticOut, null, 0);
             Laya.Tween.to(img2, { x: _img1x, y: _img1y }, 1000, Laya.Ease.elasticOut, null, 0);
             this.exchangeImginLittArr(img1, img2);
+        }
+        else {
         }
         //完成标志
         var isComplete = true;
