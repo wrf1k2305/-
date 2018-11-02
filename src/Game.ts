@@ -5,16 +5,37 @@
 class Game {
 
     constructor() {
-        if (this.selectPic == null) {
-            this.selectPic = Laya.loader.getRes("../laya/assets/res/img1.png");
-            this.selectPic.url = "../laya/assets/res/img1.png";
-        }
 
-        this.gameInit();
+        this.pictureArr = ["../laya/assets/imgres/IMG1.png", "../laya/assets/imgres/IMG2.png", "../laya/assets/imgres/IMG3.png"];
+        this.scrollPictureArr = ["../laya/assets/imgres/img_1.png", "../laya/assets/imgres/img_2.png", "../laya/assets/imgres/img_3.png"];
+        this.chooseMenu = new ui.chooseMenuUI();
+        Laya.stage.addChild(this.chooseMenu);
+
+        //监听事件
+        this.chooseMenu._easy.on(Laya.Event.CLICK, this, this.gameInit, ["easy"]);
+
+        this.chooseMenu._normal.on(Laya.Event.CLICK, this, this.gameInit, ["normal"]);
+
+        this.chooseMenu._hard.on(Laya.Event.CLICK, this, this.gameInit, ["hard"]);
+
+        let url: Array<string> = ["../laya/assets/imgres/IMG1.png", "../laya/assets/imgres/IMG2.png", "../laya/assets/imgres/IMG3.png",
+            "../laya/assets/imgres/img_1.png", "../laya/assets/imgres/img_2.png", "../laya/assets/imgres/img_3.png"];
+        Laya.loader.load(url, Laya.Handler.create(this, this.gameInit, ["easy"]));
     }
 
-    private gameInit(): void {
-        this.createGameScence();
+    private gameInit(text: string): void {
+
+        if (text === "easy") {
+            this.selectPic = Laya.loader.getRes(this.pictureArr[0]);
+            this.selectScrollPictureurl = this.scrollPictureArr[0];
+        } else if (text === "normal") {
+            this.selectPic = Laya.loader.getRes(this.pictureArr[1]);
+            this.selectScrollPictureurl = this.scrollPictureArr[1];
+        } else if (text === "hard") {
+            this.selectPic = Laya.loader.getRes(this.pictureArr[2]);
+            this.selectScrollPictureurl = this.scrollPictureArr[2];
+        }
+        this.reBegin();
     }
 
     /**
@@ -23,6 +44,7 @@ class Game {
     private createGameScence() {
         this.sprite = new Laya.Sprite();
         this.scrollSprite = new Laya.Sprite();
+
         this._w = this.selectPic.width / 3;
         this._h = this.selectPic.height / 4;
         let _w: number = this.selectPic.width;
@@ -38,16 +60,26 @@ class Game {
         //切分大图
         this.addLittlePic();
         this.scrollSprite.x = this.sprite.x + this.sprite.width / 2;
-        this.scrollSprite.y = this.sprite.y - 200;
+        this.scrollSprite.y = this.sprite.y;
         Laya.stage.addChild(this.sprite);
         Laya.stage.addChild(this.scrollSprite);
 
-        this.initScrollSprite(this.selectPic.url);
+        //将缩略图放置在右边
+        this.scrollSprite.x = this.sprite.x + this.sprite.width + 20;
+        this.scrollSprite.y = this.sprite.y;
+        this.initScrollSprite(this.selectScrollPictureurl);
+        //将菜单界面放置在图片左边
+        this.chooseMenu.x = this.sprite.x - 100;
+        this.chooseMenu.y = this.sprite.y;
+        this.chooseMenu.graphics.drawRect(0, 0, 80, this.sprite.height, "#333333");
     }
 
+    /**
+     * 存放缩略图
+     * 
+     */
     private initScrollSprite(url: string): void {
         let img: Laya.Image = new Laya.Image(url);
-        img.scale(0.5, 0.5);
         this.scrollSprite.addChild(img);
     }
     private addLittlePic(): void {
@@ -158,7 +190,7 @@ class Game {
             Laya.Tween.to(img2, { x: _img1x, y: _img1y }, 1000, Laya.Ease.elasticOut, null, 0);
             this.exchangeImginLittArr(img1, img2);
         } else {
- 
+
         }
         //完成标志
         let isComplete: boolean = true;
@@ -184,12 +216,26 @@ class Game {
     }
 
     private reBegin(): void {
-        //清除舞台上所有内容
-        Laya.stage.removeChildren(0, Laya.stage.numChildren);
+        //先清除绘制的纹理
+        if (this.sprite) {
+            this.sprite.graphics.clear();
+        }
+        //删除两个容器
+        if (this.sprite)  {
+            this.sprite.removeSelf();
+        }
+        if (this.scrollSprite)  {
+            this.scrollSprite.removeSelf();
+        }
         this.createGameScence();
     }
 
-
+    //设置图片集合
+    private pictureArr: Array<string>;
+    //设置图片的缩略图集合
+    private scrollPictureArr: Array<string>;
+    //设置当前选择的缩略图路径
+    private selectScrollPictureurl: string;
     //设置当前选择的图片纹理
     private selectPic: Laya.Texture = null;
     //小图集合
@@ -205,4 +251,7 @@ class Game {
     private oldPicArr: Array<Picture> = [];
     //放置游戏缩略图的容器
     private scrollSprite: Laya.Sprite;
+
+    //选项难度界面
+    private chooseMenu: ui.chooseMenuUI;
 }

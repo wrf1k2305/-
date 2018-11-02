@@ -1,7 +1,6 @@
 /**
  * 小图对象
  *
- * 小图大小：150 * 150
  */
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {

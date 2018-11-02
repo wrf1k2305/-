@@ -7,7 +7,9 @@ var GameMain = /** @class */ (function () {
         Laya.stage.alignH = Laya.Stage.ALIGN_CENTER;
         Laya.stage.alignV = Laya.Stage.ALIGN_MIDDLE;
         Laya.stage.bgColor = "#999999";
-        var res = ["../laya/assets/res/img1.png", "res/atlas/comp.atlas"];
+        var res = [
+            "../laya/assets/comp.atlas"
+        ];
         //加载拼图资源
         Laya.loader.load(res, Laya.Handler.create(this, this.onLoaded));
     }
@@ -17,4 +19,4 @@ var GameMain = /** @class */ (function () {
     return GameMain;
 }());
 new GameMain();
-//# sourceMappingURL=LayaSample.js.map
+//# sourceMappingURL=Main.js.map

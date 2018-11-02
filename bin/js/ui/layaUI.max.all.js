@@ -15,6 +15,22 @@ var View = laya.ui.View;
 var Dialog = laya.ui.Dialog;
 var ui;
 (function (ui) {
+    var chooseMenuUI = /** @class */ (function (_super) {
+        __extends(chooseMenuUI, _super);
+        function chooseMenuUI() {
+            return _super.call(this) || this;
+        }
+        chooseMenuUI.prototype.createChildren = function () {
+            View.regComponent("game.labelRuntime", game.labelRuntime);
+            _super.prototype.createChildren.call(this);
+            this.createView(ui.chooseMenuUI.uiView);
+        };
+        chooseMenuUI.uiView = { "type": "View", "props": { "width": 80, "height": 600 }, "child": [{ "type": "VBox", "props": { "y": 0, "x": 0, "space": 100, "align": "center" }, "child": [{ "type": "Label", "props": { "var": "_easy", "text": "easy", "runtime": "game.labelRuntime", "fontSize": 25, "font": "Helvetica", "color": "#ffffff" } }, { "type": "Label", "props": { "y": 10, "x": 10, "var": "_normal", "text": "normal", "runtime": "game.labelRuntime", "fontSize": 25, "font": "Helvetica", "color": "#ffffff" } }, { "type": "Label", "props": { "y": 81, "x": 14, "var": "_hard", "text": "hard", "runtime": "game.labelRuntime", "fontSize": 25, "font": "Helvetica", "color": "#ffffff" } }] }] };
+        return chooseMenuUI;
+    }(View));
+    ui.chooseMenuUI = chooseMenuUI;
+})(ui || (ui = {}));
+(function (ui) {
     var showSuccessPageUI = /** @class */ (function (_super) {
         __extends(showSuccessPageUI, _super);
         function showSuccessPageUI() {
@@ -24,7 +40,7 @@ var ui;
             _super.prototype.createChildren.call(this);
             this.createView(ui.showSuccessPageUI.uiView);
         };
-        showSuccessPageUI.uiView = { "type": "Dialog", "props": { "width": 400, "height": 400 }, "child": [{ "type": "Image", "props": { "y": 0, "x": 0, "width": 400, "skin": "comp/bg.png", "sizeGrid": "31,25,13,10", "height": 400 } }, { "type": "Label", "props": { "y": 175, "x": 0, "width": 400, "text": "恭喜完成！", "height": 50, "fontSize": 50, "font": "Helvetica", "bold": false, "align": "center" } }, { "type": "Button", "props": { "y": 2, "x": 370, "var": "_close", "skin": "comp/btn_close.png" } }] };
+        showSuccessPageUI.uiView = { "type": "Dialog", "props": { "width": 400, "height": 400 }, "child": [{ "type": "Image", "props": { "y": 0, "x": 0, "width": 400, "skin": "comp/bg.png", "sizeGrid": "31,25,13,10", "height": 56 } }, { "type": "Label", "props": { "y": 25, "x": 16, "width": 400, "text": "恭喜完成！", "height": 25, "fontSize": 25, "font": "Helvetica", "bold": false, "align": "center" } }, { "type": "Button", "props": { "y": 2, "x": 370, "var": "_close", "skin": "comp/btn_close.png" } }] };
         return showSuccessPageUI;
     }(Dialog));
     ui.showSuccessPageUI = showSuccessPageUI;

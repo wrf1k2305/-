@@ -1,7 +1,6 @@
 /**
  * 小图对象
  * 
- * 小图大小：150 * 150
  */
 
 class Picture extends Laya.Sprite {
