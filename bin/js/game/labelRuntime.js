@@ -16,8 +16,17 @@ var game;
     var labelRuntime = /** @class */ (function (_super) {
         __extends(labelRuntime, _super);
         function labelRuntime() {
-            return _super.call(this) || this;
+            var _this = _super.call(this) || this;
+            _this.on(Laya.Event.MOUSE_OVER, _this, _this.overMouse);
+            _this.on(Laya.Event.MOUSE_OUT, _this, _this.outMouse);
+            return _this;
         }
+        labelRuntime.prototype.overMouse = function () {
+            this.bgColor = "#666666";
+        };
+        labelRuntime.prototype.outMouse = function () {
+            this.bgColor = "#333333";
+        };
         return labelRuntime;
     }(Laya.Label));
     game.labelRuntime = labelRuntime;

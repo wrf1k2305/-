@@ -25,7 +25,7 @@ var ui;
             _super.prototype.createChildren.call(this);
             this.createView(ui.chooseMenuUI.uiView);
         };
-        chooseMenuUI.uiView = { "type": "View", "props": { "width": 80, "height": 600 }, "child": [{ "type": "VBox", "props": { "y": 0, "x": 0, "space": 100, "align": "center" }, "child": [{ "type": "Label", "props": { "var": "_easy", "text": "easy", "runtime": "game.labelRuntime", "fontSize": 25, "font": "Helvetica", "color": "#ffffff" } }, { "type": "Label", "props": { "y": 10, "x": 10, "var": "_normal", "text": "normal", "runtime": "game.labelRuntime", "fontSize": 25, "font": "Helvetica", "color": "#ffffff" } }, { "type": "Label", "props": { "y": 81, "x": 14, "var": "_hard", "text": "hard", "runtime": "game.labelRuntime", "fontSize": 25, "font": "Helvetica", "color": "#ffffff" } }] }] };
+        chooseMenuUI.uiView = { "type": "View", "props": { "width": 80, "height": 600 }, "child": [{ "type": "VBox", "props": { "y": 0, "x": 0, "width": 80, "space": 100, "align": "center" }, "child": [{ "type": "Label", "props": { "width": 80, "var": "_easy", "text": "easy", "runtime": "game.labelRuntime", "height": 25, "fontSize": 20, "font": "Helvetica", "color": "#ffffff", "align": "center" } }, { "type": "Label", "props": { "y": 0, "x": 0, "width": 80, "var": "_normal", "text": "normal", "runtime": "game.labelRuntime", "fontSize": 20, "font": "Helvetica", "color": "#ffffff", "align": "center" } }, { "type": "Label", "props": { "y": 0, "x": 0, "width": 80, "var": "_hard", "text": "hard", "runtime": "game.labelRuntime", "fontSize": 20, "font": "Helvetica", "color": "#ffffff", "align": "center" } }] }] };
         return chooseMenuUI;
     }(View));
     ui.chooseMenuUI = chooseMenuUI;
